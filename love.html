@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Nadjib's Heart for Sana 💘 | Unlock My Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #2b1b3a 0%, #1a0f2a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', 'Poppins', 'Segoe UI', system-ui, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+
+        body::before {
+            content: "💙";
+            position: fixed;
+            font-size: 180px;
+            opacity: 0.03;
+            bottom: -50px;
+            left: -50px;
+            pointer-events: none;
+            transform: rotate(-15deg);
+        }
+
+        body::after {
+            content: "💗";
+            position: fixed;
+            font-size: 250px;
+            opacity: 0.03;
+            top: -80px;
+            right: -80px;
+            pointer-events: none;
+            transform: rotate(20deg);
+        }
+
+        .game-wrapper {
+            position: relative;
+            z-index: 10;
+            background: rgba(58, 38, 78, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 56px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 3px rgba(100,150,255,0.3);
+            max-width: 750px;
+            width: 90%;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            color: #ffddee;
+            text-shadow: 0 0 15px #4a88ff;
+            margin-bottom: 0.2rem;
+        }
+
+        .sub {
+            color: #ccaaee;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .nadjib-badge {
+            background: rgba(255,100,150,0.2);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            color: #ffbbdd;
+        }
+
+        .mystery-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #8B5A2B, #5C3A1E);
+            margin: 0 auto;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,200,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mystery-box::before {
+            content: "🎁";
+            position: absolute;
+            font-size: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(2px 4px 6px black);
+        }
+
+        .mystery-box::after {
+            content: "🔒";
+            position: absolute;
+            font-size: 30px;
+            bottom: 15px;
+            right: 20px;
+            filter: drop-shadow(0 2px 3px black);
+        }
+
+        .box-unlocked {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 0 40px #ffaa44;
+        }
+
+        .box-unlocked::before {
+            content: "💝";
+            font-size: 90px;
+        }
+
+        .box-unlocked::after {
+            content: "✨";
+            font-size: 35px;
+        }
+
+        .keys-status {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 60px;
+        }
+
+        .key {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #ccaaee;
+        }
+
+        .key-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .key-obtained {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px gold);
+        }
+
+        .key-missing {
+            opacity: 0.4;
+            filter: grayscale(0.5);
+        }
+
+        .game-panel {
+            background: rgba(30, 15, 50, 0.7);
+            border-radius: 40px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(100,150,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffbbdd;
+            margin-bottom: 0.8rem;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .grid-cell {
+            background: #4a2a5a;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .grid-cell:hover {
+            background: #6a4a7a;
+        }
+
+        .catch-area {
+            background: #2a1a3a;
+            border-radius: 30px;
+            padding: 15px;
+            position: relative;
+            min-height: 150px;
+            overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute;
+            font-size: 28px;
+            cursor: pointer;
+            animation: fall 2.5s linear forwards;
+            filter: drop-shadow(0 2px 4px black);
+        }
+
+        @keyframes fall {
+            0% { top: -30px; opacity: 1; transform: rotate(0deg);}
+            100% { top: 140px; opacity: 0; transform: rotate(20deg);}
+        }
+
+        .catch-score {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            color: #ffccdd;
+        }
+
+        .flirty-question {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #ffe0f0;
+        }
+
+        .flirty-answers {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .flirty-btn {
+            background: #3a2a4a;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 50px;
+            color: #ffccdd;
+            cursor: pointer;
+            transition: 0.1s;
+            font-family: inherit;
+        }
+
+        .flirty-btn.correct-answer {
+            background: linear-gradient(135deg, #4a88ff, #2a5acc);
+            color: white;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #4a88ff, #2a5acc);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .play-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reveal-message {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.5);
+            padding: 12px;
+            border-radius: 30px;
+            animation: glowPulse 1s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px #4a88ff; }
+            100% { box-shadow: 0 0 25px #4a88ff; }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-text {
+            color: #FFD966;
+            font-size: 1.1rem;
+        }
+
+        .tease-bubble {
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: #bb99dd;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 50px;
+        }
+
+        .nadjib-signature {
+            margin-top: 15px;
+            font-size: 0.7rem;
+            color: #6688ff;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+    <div class="nadjib-badge">💙 made with love by NADJIB 💙</div>
+    <h1>🎁 NADJIB'S HEART FOR SANA 🎁</h1>
+    <div class="sub">Nadjib is collecting keys to unlock your heart 💘</div>
+
+    <div class="box-container">
+        <div class="mystery-box" id="mysteryBox"></div>
+    </div>
+
+    <div class="keys-status">
+        <div class="key" id="key1Status">
+            <div class="key-icon">🔑</div>
+            <span>Heart Key</span>
+        </div>
+        <div class="key" id="key2Status">
+            <div class="key-icon">💌</div>
+            <span>Letter Key</span>
+        </div>
+        <div class="key" id="key3Status">
+            <div class="key-icon">❓</div>
+            <span>Truth Key</span>
+        </div>
+    </div>
+
+    <!-- GAME 1: NADJIB FINDS THE HIDDEN HEART -->
+    <div class="game-panel" id="game1Panel">
+        <div class="game-title">🔍 KEY 1: Nadjib Finds the Hidden Heart</div>
+        <div class="search-grid" id="searchGrid"></div>
+        <div class="tease-bubble" id="game1Tease">💙 Nadjib is searching for your heart, Sana! 💙</div>
+        <button class="play-btn" id="resetGame1Btn" style="background:#4a2a5a;">🔄 Nadjib Resets Search</button>
+    </div>
+
+    <!-- GAME 2: NADJIB CATCHES LOVE LETTERS -->
+    <div class="game-panel" id="game2Panel">
+        <div class="game-title">💌 KEY 2: Nadjib Catches 5 Love Letters</div>
+        <div class="catch-area" id="catchArea" style="height: 130px; position: relative;"></div>
+        <div class="catch-score" id="catchScore">Caught by Nadjib: 0 / 5</div>
+        <button class="play-btn" id="startCatchBtn">✨ Nadjib Starts Catching ✨</button>
+        <div class="tease-bubble" id="game2Tease">click the falling 💌 before they disappear!</div>
+    </div>
+
+    <!-- GAME 3: NADJIB ANSWERS FOR SANA -->
+    <div class="game-panel" id="game3Panel">
+        <div class="game-title">❓ KEY 3: Nadjib Answers for Sana</div>
+        <div id="questionArea">
+            <div class="flirty-question" id="qText">Loading...</div>
+            <div class="flirty-answers" id="qAnswers"></div>
+        </div>
+        <div class="tease-bubble" id="game3Tease">💙 Wrong answers run away from Nadjib! 💙</div>
+        <div id="qProgress" style="font-size:0.7rem; margin-top:8px;">Question 1/3</div>
+    </div>
+
+    <div id="finalReveal" class="reveal-message hidden">
+        <div class="success-text">💖 BOX UNLOCKED BY NADJIB! 💖</div>
+        <div id="sanaMessage">💙 NADJIB says: "Sana, you have my whole heart. I love you! 💙"</div>
+        <div style="font-size: 2rem; margin-top: 10px;">💙💗💘💕💙</div>
+    </div>
+    <div class="nadjib-signature">💙 nadjib ✨ sana — forever 💙</div>
+</div>
+
+<script>
+    // ========== GAME STATE ==========
+    let keys = { key1: false, key2: false, key3: false };
+
+    // Game 1
+    let heartPosition = 0;
+    let game1Completed = false;
+
+    // Game 2
+    let catchCount = 0;
+    let game2Active = false;
+    let fallInterval = null;
+
+    // Game 3
+    let currentQIndex = 0;
+    let game3Completed = false;
+    const flirtyQuestions = [
+        {
+            text: "Does Nadjib deserve your love, Sana?",
+            correct: "YES! Nadjib deserves all my love! 💙",
+            wrong: ["No, not really", "Maybe someone else", "I'm not sure", "Probably not"]
+        },
+        {
+            text: "Would you hold Nadjib's hand forever?",
+            correct: "Forever and always, Nadjib! 🤝💙",
+            wrong: ["Too shy", "Only sometimes", "No thanks", "Maybe later"]
+        },
+        {
+            text: "Is Nadjib the one for you?",
+            correct: "Yes! Nadjib is my one and only! ❤️",
+            wrong: ["Not really", "I don't know", "There are others", "Probably no"]
+        }
+    ];
+
+    function updateKeysUI() {
+        const key1El = document.getElementById('key1Status');
+        const key2El = document.getElementById('key2Status');
+        const key3El = document.getElementById('key3Status');
+        if (keys.key1) key1El.classList.add('key-obtained');
+        else key1El.classList.remove('key-obtained');
+        if (keys.key2) key2El.classList.add('key-obtained');
+        else key2El.classList.remove('key-obtained');
+        if (keys.key3) key3El.classList.add('key-obtained');
+        else key3El.classList.remove('key-obtained');
+        
+        if (keys.key1 && keys.key2 && keys.key3) unlockBox();
+    }
+    
+    function unlockBox() {
+        const box = document.getElementById('mysteryBox');
+        box.classList.add('box-unlocked');
+        const revealDiv = document.getElementById('finalReveal');
+        revealDiv.classList.remove('hidden');
+        for (let i = 0; i < 40; i++) createFloatingHeartReward();
+    }
+    
+    function createFloatingHeartReward() {
+        const heart = document.createElement('div');
+        heart.innerHTML = ['❤️','💖','💗','💘','💝','💙'][Math.floor(Math.random()*6)];
+        heart.style.position = 'fixed';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.top = Math.random() * window.innerHeight + 'px';
+        heart.style.fontSize = (20 + Math.random() * 40) + 'px';
+        heart.style.pointerEvents = 'none';
+        heart.style.zIndex = '9999';
+        heart.style.animation = 'fall 1s ease-out forwards';
+        heart.style.opacity = '0.9';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    }
+    
+    // GAME 1: Find hidden heart (Nadjib searching)
+    function buildSearchGrid() {
+        const grid = document.getElementById('searchGrid');
+        grid.innerHTML = '';
+        heartPosition = Math.floor(Math.random() * 15);
+        for (let i = 0; i < 15; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('grid-cell');
+            cell.textContent = '❓';
+            cell.dataset.index = i;
+            cell.addEventListener('click', () => checkHeart(cell, i));
+            grid.appendChild(cell);
+        }
+    }
+    
+    function checkHeart(cell, idx) {
+        if (game1Completed) {
+            document.getElementById('game1Tease').innerHTML = '✅ Nadjib already found your heart! ✅';
+            return;
+        }
+        if (idx === heartPosition) {
+            cell.textContent = '💙';
+            cell.style.background = '#4a88ff';
+            document.getElementById('game1Tease').innerHTML = '🎉 NADJIB FOUND THE HIDDEN HEART! Key 1 obtained! 🎉';
+            keys.key1 = true;
+            game1Completed = true;
+            updateKeysUI();
+            const allCells = document.querySelectorAll('#searchGrid .grid-cell');
+            allCells.forEach(c => c.style.pointerEvents = 'none');
+        } else {
+            cell.textContent = '💔';
+            cell.style.background = '#5a2a3a';
+            document.getElementById('game1Tease').innerHTML = '💔 Not here! Nadjib keeps searching... 💔';
+            setTimeout(() => {
+                if (cell.textContent === '💔') {
+                    cell.textContent = '❓';
+                    cell.style.background = '#4a2a5a';
+                }
+            }, 600);
+        }
+    }
+    
+    document.getElementById('resetGame1Btn').addEventListener('click', () => {
+        if (!game1Completed) {
+            buildSearchGrid();
+            document.getElementById('game1Tease').innerHTML = '💙 Nadjib is searching again for your heart! 💙';
+        } else {
+            document.getElementById('game1Tease').innerHTML = 'Nadjib already has Key 1! Move to next key!';
+        }
+    });
+    
+    // GAME 2: Catch falling letters (Nadjib catching)
+    function spawnFallingLetter() {
+        if (!game2Active) return;
+        const catchArea = document.getElementById('catchArea');
+        const letter = document.createElement('div');
+        letter.classList.add('falling-item');
+        letter.textContent = '💌';
+        letter.style.left = Math.random() * (catchArea.clientWidth - 40) + 'px';
+        letter.style.top = '-30px';
+        letter.style.position = 'absolute';
+        letter.style.cursor = 'pointer';
+        letter.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!game2Active) return;
+            if (catchCount < 5) {
+                catchCount++;
+                document.getElementById('catchScore').innerText = `Caught by Nadjib: ${catchCount} / 5`;
+                letter.remove();
+                if (catchCount === 5) {
+                    game2Active = false;
+                    if (fallInterval) clearInterval(fallInterval);
+                    document.getElementById('game2Tease').innerHTML = '🎉 Nadjib caught 5 letters! Key 2 obtained! 🎉';
+                    keys.key2 = true;
+                    updateKeysUI();
+                    document.getElementById('startCatchBtn').disabled = true;
+                } else {
+                    document.getElementById('game2Tease').innerHTML = `📬 Nadjib caught one! ${catchCount}/5 more!`;
+                }
+            }
+        });
+        catchArea.appendChild(letter);
+        setTimeout(() => { if (letter.parentNode) letter.remove(); }, 2400);
+    }
+    
+    function startCatching() {
+        if (keys.key2) {
+            document.getElementById('game2Tease').innerHTML = '✅ Nadjib already has the Letter Key! ✅';
+            return;
+        }
+        if (game2Active) return;
+        catchCount = 0;
+        document.getElementById('catchScore').innerText = `Caught by Nadjib: 0 / 5`;
+        game2Active = true;
+        if (fallInterval) clearInterval(fallInterval);
+        fallInterval = setInterval(() => {
+            if (game2Active && catchCount < 5) spawnFallingLetter();
+            else if (catchCount >= 5) { clearInterval(fallInterval); game2Active = false; }
+        }, 800);
+        document.getElementById('game2Tease').innerHTML = '✨ Nadjib is catching! Click the falling letters! ✨';
+    }
+    
+    document.getElementById('startCatchBtn').addEventListener('click', startCatching);
+    
+    // GAME 3: Flirty questions for Sana about Nadjib
+    function loadFlirtyQuestion() {
+        if (game3Completed) return;
+        const q = flirtyQuestions[currentQIndex];
+        document.getElementById('qText').innerHTML = q.text;
+        const answersContainer = document.getElementById('qAnswers');
+        answersContainer.innerHTML = '';
+        let opts = [q.correct, ...q.wrong];
+        for (let i = opts.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [opts[i], opts[j]] = [opts[j], opts[i]];
+        }
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.textContent = opt;
+            btn.classList.add('flirty-btn');
+            if (opt === q.correct) btn.classList.add('correct-answer');
+            btn.addEventListener('click', (e) => handleFlirtyAnswer(btn, opt, q.correct));
+            answersContainer.appendChild(btn);
+        });
+        document.getElementById('qProgress').innerHTML = `Question ${currentQIndex+1}/3 for Nadjib`;
+    }
+    
+    function handleFlirtyAnswer(btn, selected, correctAns) {
+        if (game3Completed) return;
+        if (selected === correctAns) {
+            btn.style.transform = 'scale(1.1)';
+            document.getElementById('game3Tease').innerHTML = '✅ Correct, Sana! ✅';
+            currentQIndex++;
+            if (currentQIndex >= flirtyQuestions.length) {
+                game3Completed = true;
+                keys.key3 = true;
+                updateKeysUI();
+                document.getElementById('game3Tease').innerHTML = '🎉 Nadjib answered everything! Key 3 obtained! 🎉';
+                document.getElementById('questionArea').innerHTML = '<div style="padding:10px;">💙 Sana believes in Nadjib! 💙</div>';
+            } else {
+                loadFlirtyQuestion();
+            }
+        } else {
+            moveWrongFlirtyButton(btn);
+            document.getElementById('game3Tease').innerHTML = '💨 Wrong answer ran away! Choose the one about Nadjib! 💨';
+        }
+    }
+    
+    function moveWrongFlirtyButton(btn) {
+        const container = document.getElementById('qAnswers');
+        const containerRect = container.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        const maxX = containerRect.width - btnRect.width - 5;
+        const maxY = containerRect.height - btnRect.height - 5;
+        let newX = Math.random() * maxX;
+        let newY = Math.random() * maxY;
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+        btn.style.position = 'relative';
+        btn.style.left = newX + 'px';
+        btn.style.top = newY + 'px';
+        btn.style.transition = 'all 0.07s linear';
+        setTimeout(() => { btn.style.transition = ''; }, 150);
+        let currentScale = 0.9;
+        btn.style.transform = `scale(${currentScale})`;
+        setTimeout(() => { btn.style.transform = ''; }, 200);
+    }
+    
+    // Mouse tracking for game 3 wrong answers (dodge)
+    document.addEventListener('mousemove', (e) => {
+        if (game3Completed) return;
+        const wrongBtns = document.querySelectorAll('#qAnswers .flirty-btn:not(.correct-answer)');
+        wrongBtns.forEach(btn => {
+            const rect = btn.getBoundingClientRect();
+            const buffer = 45;
+            if (e.clientX > rect.left - buffer && e.clientX < rect.right + buffer &&
+                e.clientY > rect.top - buffer && e.clientY < rect.bottom + buffer) {
+                moveWrongFlirtyButton(btn);
+            }
+        });
+    });
+    
+    buildSearchGrid();
+    loadFlirtyQuestion();
+    
+    console.log("💙 NADJIB's Mystery Box for SANA — fully personalized love game 💙");
+</script>
+</body>
+</html>
